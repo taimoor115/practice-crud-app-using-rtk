@@ -1,11 +1,12 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../store/store";
 
 const Navbar = () => {
+  const count = useSelector((state: RootState) => state.app.users);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">
-        Redux Toolkit
-      </a>
+      <span className="navbar-brand">Redux Toolkit</span>
       <button
         className="navbar-toggler"
         type="button"
@@ -26,9 +27,9 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              All Post
-            </a>
+            <Link className="nav-link" to="/read">
+              All Post ({count.length})
+            </Link>
           </li>
         </ul>
         <form className="form-inline my-2 my-lg-0">

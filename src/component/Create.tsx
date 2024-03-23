@@ -1,9 +1,11 @@
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../features/userDetailSlice";
 
 const Create = () => {
   const [users, setUsers] = useState({});
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const getUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +16,7 @@ const Create = () => {
     e.preventDefault();
     console.log(users);
     dispatch(createUser(users));
+    navigate("/read");
   };
 
   return (
