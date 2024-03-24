@@ -12,18 +12,24 @@ interface UserState {
   users: User[];
   loading: boolean;
   error: string | undefined;
+  searchData: [];
 }
 
 const initialState: UserState = {
   users: [],
   loading: false,
   error: undefined,
+  searchData: [],
 };
 
 const userDetailSlice = createSlice({
   name: "userDetail",
   initialState,
-  reducers: {},
+  reducers: {
+    searchUser: (state, action) => {
+      state.searchData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createUser.pending, (state) => {
@@ -159,9 +165,10 @@ export const updateUser = createAsyncThunk(
       const data = await res.json();
       return data;
     } catch (error) {
-      return rejectWithValue(error) ;
+      return rejectWithValue(error);
     }
   }
 );
 
 export default userDetailSlice.reducer;
+export const { searchUser } = userDetailSlice.actions;
