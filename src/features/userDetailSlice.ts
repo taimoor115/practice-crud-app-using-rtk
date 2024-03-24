@@ -47,6 +47,21 @@ const userDetailSlice = createSlice({
       .addCase(readUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        const { id } = action.payload;
+
+        if (id) {
+          state.users = state.users.filter((user) => user.id !== id);
+        }
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });
@@ -86,6 +101,27 @@ export const readUser = createAsyncThunk(
       const result = await response.json();
       console.log(result);
       return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// Delete Action
+
+export const deleteUser = createAsyncThunk(
+  "deleteUser",
+  async (id, { rejectWithValue }) => {
+    const res = await fetch(
+      `https://65fa8ab83909a9a65b1aa217.mockapi.io/Crud/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    try {
+      const data = await res.json();
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
