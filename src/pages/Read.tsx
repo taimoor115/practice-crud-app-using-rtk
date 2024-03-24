@@ -75,7 +75,7 @@ const Read = () => {
             }
           })
           .map((user) => (
-            <div key={user.id} className="w-50 mx-auto p-4">
+            <div key={user.id} className="container">
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Name: {user.name}</h5>
