@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
@@ -60,6 +60,19 @@ const userDetailSlice = createSlice({
         }
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = state.users.map((user) =>
+          user.id === action.payload.id ? action.payload : user
+        );
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       });
@@ -124,6 +137,29 @@ export const deleteUser = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(error);
+    }
+  }
+);
+// Update
+
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async (data, { rejectWithValue }) => {
+    const res = await fetch(
+      `https://65fa8ab83909a9a65b1aa217.mockapi.io/Crud/${data.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    try {
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error) ;
     }
   }
 );

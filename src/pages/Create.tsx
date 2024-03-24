@@ -20,9 +20,9 @@ const Create = () => {
 
   return (
     <>
-      <h3 className="text-center text-primary mt-2">Fill the Fields</h3>
+      <h3 className="text-center text-dark mt-2">Fill the Fields</h3>
 
-      <form className="w-50 mx-auto my-5 text-primary" onSubmit={handleSubmit}>
+      <form className="w-50 mx-auto my-5 text-dark" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name</label>
           <input
@@ -75,7 +75,7 @@ const Create = () => {
           <label className="form-check-label ms-2">Female</label>
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-dark">
           Submit
         </button>
       </form>
